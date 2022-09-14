@@ -11,11 +11,11 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     // If we are on a local development network, we need to deploy mocks!
     if (developmentChains.includes(network.name)) {
         log("Local network detected! Deploying mocks...")
-        // await deploy("VRFCoordinatorV2Mock", {
-        //     from: deployer,
-        //     log: true,
-        //     args: [BASE_FEE, GAS_PRICE_LINK],
-        // })
+        await deploy("VRFCoordinatorV2Mock", {
+            from: deployer,
+            log: true,
+            args: [BASE_FEE, GAS_PRICE_LINK],
+        })
 
         await deploy("MockV3Aggregator", {
             from: deployer,
