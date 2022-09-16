@@ -3,7 +3,7 @@ const { network, ethers } = require("hardhat")
 module.exports = async ({ getNamedAccounts, deployments }) => {
     const { deployer } = await getNamedAccounts()
     const chainId = network.config.chainId
-
+    console.log("--------------------------------------------")
     // Basic NFT
     const basicNft = await ethers.getContract("basicNft", deployer)
     const basicMintTx = await basicNft.mintNft()
@@ -15,7 +15,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     const dynamicSvgNft = await ethers.getContract("dynamicSvgNft", deployer)
     const dynamicSvgNftMintTx = await dynamicSvgNft.mintNft(highValue)
     await dynamicSvgNftMintTx.wait(1)
-    console.log(`Dynamic SVG NFT index 0 tokenURI: ${await dynamicSvgNft.tokenURI(0)}`)
+    //console.log(`Dynamic SVG NFT index 0 tokenURI: ${await dynamicSvgNft.tokenURI(0)}`)
 
     // random ipfs  NFT
     const randomIpfsNft = await ethers.getContract("RandomIpfsNft", deployer)
@@ -36,5 +36,19 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
         }
     })
     console.log(`Random IPFS NFT index 0 tokenURI: ${await randomIpfsNft.tokenURI(0)}`)
+    console.log("--------------------------------------------")
+    // customuri  NFT
+    const tokenUri = "https://gateway.pinata.cloud/ipfs/QmaVkBn2tKmjbhphU7eyztbvSQU5EXDdqRyXZtRhSGgJGo"
+    const customUri = await ethers.getContract("customUri", deployer)
+    const customUriMintTx = await customUri.mintNFT(deployer, tokenUri)
+    await customUriMintTx.wait(1)
+    console.log(`Custom URI NFT index 0 tokenURI: ${await customUri.tokenURI(0)}`)
+
+    // customuri NFT Update 
+    const tokenUriupdate = "https://gateway.pinata.cloud/ipfs/QmZj9J4t7W3JGTawSKkhKnyiWyyBVX6hgWb35tnWs74XFz"
+    const customUriUpdateTx = await customUri.updateNFT(deployer, customUriMintTx.v, tokenUriupdate)
+    await customUriUpdateTx.wait(1)
+    console.log(`Updated Custom URI NFT index 0 tokenURI: ${await customUri.tokenURI(0)}`)
+
 }
 module.exports.tags = ["all", "mint"]
