@@ -9,9 +9,12 @@ const pinata = pinataSDK(pinataApiKey, pinataApiSecret)
 async function storeImages(imagesFilePath) {
     const fullImagesPath = path.resolve(imagesFilePath)
     const files = fs.readdirSync(fullImagesPath)
+    console.log(`files: ${files}`)
     let responses = []
     for (fileIndex in files) {
+        console.log(`createReadStreaminput: ${fullImagesPath}/${files[fileIndex]}`)
         const readableStreamForFile = fs.createReadStream(`${fullImagesPath}/${files[fileIndex]}`)
+        //console.log(`bla: ${JSON.stringify(readableStreamForFile)}`)
         try {
             const response = await pinata.pinFileToIPFS(readableStreamForFile)
             responses.push(response)
