@@ -46,7 +46,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
     // customuri NFT Update 
     const tokenUriupdate = "https://gateway.pinata.cloud/ipfs/QmZj9J4t7W3JGTawSKkhKnyiWyyBVX6hgWb35tnWs74XFz"
-    const customUriUpdateTx = await customUri.updateNFT(deployer, customUriMintTx.v, tokenUriupdate)
+    const customUriUpdateTx = await customUri.updateNFT(customUriMintTx.v, tokenUriupdate)
     await customUriUpdateTx.wait(1)
     console.log(`Updated Custom URI NFT index 0 tokenURI: ${await customUri.tokenURI(0)}`)
 

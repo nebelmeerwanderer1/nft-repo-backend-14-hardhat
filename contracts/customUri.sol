@@ -26,20 +26,15 @@ contract customUri is ERC721URIStorage {
         return newItemId;
     }
 
-    function updateNFT(
-        address owner,
-        uint256 tokenId,
-        string memory tokenURI
-    ) public returns (bool) {
+    function updateNFT(uint256 tokenId, string memory tokenURI) public returns (bool) {
         _requireMinted(tokenId);
 
-        if (ownerOf(tokenId) != owner) {
+        if (ownerOf(tokenId) != msg.sender) {
             revert NotOwnerOfNFT();
         }
 
         _setTokenURI(tokenId, tokenURI);
         emit UpdatedTokenUri(tokenId, tokenURI, ownerOf(tokenId));
-
         return true;
     }
 
